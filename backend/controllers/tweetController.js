@@ -70,7 +70,7 @@ export const getAllTweets = async(req,res) => {
             return  Tweet.find({userId:otherUsersId});
         }));
         return res.status(200).json({
-            tweets:loggedInUserTweets.concat(...followingUserTweet)
+            tweets:loggedInUserTweets.concat(...followingUserTweet),
         })
     } catch (error) {
         console.log(error);

@@ -19,6 +19,10 @@ const Body = () => {
                     path: "/profile/:id", // Correct usage, no leading slash
                     element: <Profile />
                 }
+                // {
+                //     path: "/comment/:id",
+                //     element: <Comment />
+                // }
             ]
         },
         {

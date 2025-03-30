@@ -30,7 +30,14 @@ const Profile = () => {
               <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsVcIb_T9c8816h9eVnCJmTnaey3rkjtI7A7Jkb1YhmBWqr8zq91Xyae_SgA&s" size="85" round={true} />
             </div>
             <div className='text-right m-3'>
-              <button className='px-4 py-1  hover:bg-gray-200 rounded-full border border-gray-400'>Edit Profile</button>
+              {
+                profile?._id === user?._id ? (
+                  <button className='px-4 py-1  hover:bg-gray-200 rounded-full border border-gray-400'>Edit Profile</button>
+                ):(
+                  <button className='px-4 py-1 bg-black text-white rounded-full '>Profile</button>
+                )
+              }
+              
             </div>
             <div className='mx-4 my-1'>
               <h1 className='font-bold text-xl'>{profile?.name}</h1>

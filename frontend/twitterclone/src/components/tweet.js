@@ -2,21 +2,44 @@ import React from 'react'
 import Avatar from 'react-avatar';
 import axios from "axios";
 import { AiOutlineLike } from "react-icons/ai";
-import { AiOutlineDislike } from "react-icons/ai";
 import { BiCommentDetail } from "react-icons/bi";
 import { MdOutlineSaveAlt } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
 import {TWEET_API_END_POINT} from "../utils/constant";
+import toast from "react-hot-toast";
 import { useSelector,useDispatch } from 'react-redux';
+import { getRefresh } from '../redux/tweetSlice';
 
 const Tweet = ({ tweet }) => {
     const { user } = useSelector((store) => store.user);
+    const dispatch = useDispatch();
     const likeOrDislikeHandler = async(id) =>{
         try {
             const res = await axios.put(`${TWEET_API_END_POINT}/like/${id}` ,{id:user?._id},{
                 withCredentials:true,
             })
+            console.log(res);
+            dispatch(getRefresh());
+            toast.success(res.data.message);
+
         } catch (error) {
+            toast.success(error.response.data.message);
             console.log(error);
+        }
+    }
+    const deleteTweetHandler = async(id) =>{
+        try {
+            axios.defaults.withCredentials =true;
+            const res = await axios.delete(`${TWEET_API_END_POINT}/delete/${id}` );
+            console.log(res);
+            dispatch(getRefresh());
+            toast.success(res.data.message);
+
+            
+        } catch (error) {
+            toast.success(error.response.data.message);
+            console.log(error);
+            
         }
     }
     return (
@@ -39,12 +62,7 @@ const Tweet = ({ tweet }) => {
                                 </div>
                                 <p className='ml-1'>{tweet?.like?.length}</p>
                             </div>
-                            {/* <div className='flex items-center '>
-                                <div className='p-2 hover:bg-blue-200 rounded-full cursor-pointer'>
-                                <AiOutlineDislike size="20px" />
-                                </div>
-                                <p className='ml-1'>{tweet?.dislike?.length}</p>
-                            </div> */}
+                            
                             <div className='flex items-center '>
                                 <div className='p-2 hover:bg-blue-200 rounded-full cursor-pointer'>
                                 <BiCommentDetail size="20px" />
@@ -57,6 +75,16 @@ const Tweet = ({ tweet }) => {
                                 </div>
                                 <p className='ml-1'>0</p>
                             </div>
+                            {
+                                user?._id === tweet?.userId && (
+                                <div className='flex items-center '>
+                                    <div onClick={()=> deleteTweetHandler(tweet?._id)} className='p-2 hover:bg-red-300 rounded-full cursor-pointer'>
+                                    <MdDelete size="20px"/>
+                                    </div>
+                                </div>
+                                )
+                            }
+                            
                         </div>
                     </div>
                 </div>

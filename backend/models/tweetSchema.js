@@ -9,14 +9,7 @@ const tweetSchema = new mongoose.Schema({
         type: Array,
         default: []
     },
-    dislike: {
-        type: Array,
-        default: []
-    },
-    comment:{
-        type: Array,
-        default: []
-    },
+    
     userId: {
         type :mongoose.Schema.Types.ObjectId,
         ref:"User"
